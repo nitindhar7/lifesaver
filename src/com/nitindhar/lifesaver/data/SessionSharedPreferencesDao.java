@@ -7,17 +7,12 @@ import com.nitindhar.lifesaver.model.Subway;
 
 public class SessionSharedPreferencesDao implements SessionDao {
 
-    private static final SessionDao INSTANCE = new SessionSharedPreferencesDao();
     private static final String SESSION_KEY_MRS = "most_recent_subway";
 
-    private static SharedPreferences preferences;
+    private final SharedPreferences preferences;
 
-    public static SessionDao instance() {
-        return INSTANCE;
-    }
-
-    public static void setSharedPreferences(SharedPreferences preferences) {
-        SessionSharedPreferencesDao.preferences = preferences;
+    public SessionSharedPreferencesDao(SharedPreferences preferences) {
+        this.preferences = preferences;
     }
 
     @Override

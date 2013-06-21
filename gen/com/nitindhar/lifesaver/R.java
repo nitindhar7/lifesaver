@@ -12,12 +12,17 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int ic_menu_settings=0x7f020001;
     }
     public static final class id {
-        public static final int subway_spinner=0x7f060000;
+        public static final int actionbar_settings=0x7f070001;
+        public static final int current_subway=0x7f070000;
     }
     public static final class layout {
         public static final int activity_lifesaver=0x7f030000;
+    }
+    public static final class menu {
+        public static final int actionbar=0x7f060000;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
