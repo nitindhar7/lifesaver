@@ -23,9 +23,10 @@ public class LifesaverActivity extends Activity implements OnMenuItemClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lifesaver);
 
         createActionBar(this);
+
+        setContentView(R.layout.activity_lifesaver);
 
         SharedPreferences preferences = getSharedPreferences(getResources()
                 .getString(R.string.app_prefs), MODE_PRIVATE);
@@ -33,12 +34,16 @@ public class LifesaverActivity extends Activity implements OnMenuItemClickListen
         sessionDao = new SessionSharedPreferencesDao(preferences);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onStart() {
         super.onStart();
         if(sessionDao.sessionExists()) {
             TextView currentSubway = (TextView) findViewById(R.id.current_subway);
-            currentSubway.setText(sessionDao.retrieveSession().getMostRecentSubway().toString());
+            currentSubway.setText(sessionDao.retrieveSession().getMostRecentSubway().getCode());
+            currentSubway.setBackgroundDrawable(
+                    this.getResources().getDrawable(
+                            getSubwaySplashId(sessionDao.retrieveSession().getMostRecentSubway())));
         }
     }
 
@@ -67,6 +72,7 @@ public class LifesaverActivity extends Activity implements OnMenuItemClickListen
         return true;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         TextView currentSubway = (TextView) findViewById(R.id.current_subway);
@@ -88,7 +94,8 @@ public class LifesaverActivity extends Activity implements OnMenuItemClickListen
         }
 
         sessionDao.storeSession(new Session(subway));
-        currentSubway.setText(subway.toString());
+        currentSubway.setText(subway.getCode());
+        currentSubway.setBackgroundDrawable(this.getResources().getDrawable(getSubwaySplashId(subway)));
         return true;
     }
 
@@ -100,10 +107,22 @@ public class LifesaverActivity extends Activity implements OnMenuItemClickListen
         ActionBar actionBar = activity.getActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setLogo(activity.getResources().getDrawable(
-                R.drawable.ic_launcher));
+                R.drawable.ic_launcher_lifesaver));
         actionBar.setHomeButtonEnabled(true);
+        actionBar.setBackgroundDrawable(activity.getResources().getDrawable(
+                R.color.light_gray));
         if(backEnabled) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    public static int getSubwaySplashId(Subway subway) {
+        switch(subway) {
+        case TRAIN_7: return R.drawable.subway_splash_7;
+        case TRAIN_N: return R.drawable.subway_splash_nqr;
+        case TRAIN_Q: return R.drawable.subway_splash_nqr;
+        default:
+            throw new IllegalStateException("Unable to select subway splash drawable for " + subway.getCode());
         }
     }
 

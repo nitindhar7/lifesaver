@@ -1,14 +1,23 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent"
-  android:orientation="vertical"
+  android:background="@color/dark_gray"
   tools:context=".LifesaverActivity" >
 
   <TextView
     android:id="@+id/current_subway"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:gravity="center_horizontal|center_vertical" />
+    android:layout_width="360dp"
+    android:layout_height="360dp"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:gravity="center_horizontal|center_vertical"
+    android:shadowColor="@color/black"
+    android:shadowDy="5"
+    android:shadowRadius="10"
+    android:textColor="@color/white"
+    android:textSize="200sp"
+    android:textStyle="bold"
+    android:typeface="normal" />
 
-</LinearLayout>
+</RelativeLayout>

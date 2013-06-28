@@ -2,6 +2,7 @@ package com.nitindhar.lifesaver.data;
 
 import android.content.SharedPreferences;
 
+import com.google.common.base.Optional;
 import com.nitindhar.lifesaver.model.Session;
 import com.nitindhar.lifesaver.model.Subway;
 
@@ -23,13 +24,18 @@ public class SessionSharedPreferencesDao implements SessionDao {
     @Override
     public boolean storeSession(Session session) {
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(SESSION_KEY_MRS, session.getMostRecentSubway().toString());
+        editor.putString(SESSION_KEY_MRS, session.getMostRecentSubway().getCode());
         return editor.commit();
     }
 
     @Override
     public Session retrieveSession() {
-        return new Session(Subway.valueOf(preferences.getString(SESSION_KEY_MRS, null)));
+        Optional<Subway> subwayOpt = Subway.fromString(preferences.getString(SESSION_KEY_MRS, null));
+        if(subwayOpt.isPresent()) {
+            return new Session(subwayOpt.get());
+        } else {
+            throw new IllegalStateException("No subway code received");
+        }
     }
 
 }
